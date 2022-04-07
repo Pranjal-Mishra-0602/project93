@@ -75,26 +75,27 @@ flipper_length_mm = st.sidebar.slider("flipper_length_mm",float(df["flipper_leng
 body_mass_g = st.sidebar.slider("body_mass_g",float(df["body_mass_g"].min()),float(df["body_mass_g"].max()))
 
 
-if st.sidebar.checkbox("sex"):
-	sex = st.sidebar.slider("sex",float(df["sex"].min()),float(df["sex"].max()))
-if st.sidebar.checkbox("island"):
-	sex = st.sidebar.slider("island",float(df["island"].min()),float(df["island"].max()))
+extra = st.sidebar.selectbox("select the sex column value",'sex')
+sex = st.sidebar.slider("sex",float(df["sex"].min()),float(df["sex"].max()))
+extra1 = st.sidebar.selectbox("select the island column value",'island')
+island = st.sidebar.slider("island",float(df["island"].min()),float(df["island"].max()))
+
 
 classifier= st.sidebar.selectbox("classifier",("Random Forest Classifier" , "Logistic Regression" , "Support Vector"))
 
 if st.sidebar.button("Predict"):
 
   if classifier == "Random Forest Classifier":
-    species_type = prediction(rf_clf, bill_length_mm, bill_depth_mm, flipper_length_mm,body_mass_g)
+    species_type = prediction(rf_clf, bill_length_mm, bill_depth_mm, flipper_length_mm,body_mass_g,sex,island)
     st.write("Species predicted:", species_type)
-    st.write("Accuracy score of this model is:", score)
+    st.write("Accuracy score of this model is:", rf_clf_score)
 
   if classifier == "Logistic Regression":
-    species_type = prediction(log_reg,bill_length_mm, bill_depth_mm, flipper_length_mm,body_mass_g)
+    species_type = prediction(log_reg,bill_length_mm, bill_depth_mm, flipper_length_mm,body_mass_g,sex,island)
     st.write("Species predicted:", species_type)
-    st.write("Accuracy score of this model is:", score)
+    st.write("Accuracy score of this model is:", log_reg_score)
 
   if classifier == "Support Vector":
-    species_type = prediction(svc_model,bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+    species_type = prediction(svc_model,bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g,sex,island)
     st.write("Species predicted:", species_type)
-    st.write("Accuracy score of this model is:", score)
+    st.write("Accuracy score of this model is:", svc_score)
